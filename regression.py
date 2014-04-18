@@ -1,18 +1,19 @@
 import numpy as np
 
-def computeCost(X, y, theta):
+def computeCost(X, y, theta, reg=None):
     """Does the same thing as computeCost.m and computeCostMulti.m
 
     Expressed in LaTeX:
-        J(\theta) = \frac{1}{2m} \sum_{i=1}^m (h_{\theta}(x^{(i)}) - y^{(i)})^2"""
-
+        J(\theta) = \frac{1}{2m} \sum_{i=1}^m (h_{\theta}(x^{(i)}) - y^{(i)})^2 + \lambda \sum_{j=1}^m \theta_i^2"""
+    if not reg:
+        reg = 0
     m = len(y)
-    J = 1/(2*m) * ((np.dot(X, theta.T)-y)**2).sum()
+    J = 1/(2*m) * (((np.dot(X, theta.T)-y)**2).sum() + reg*(theta**2).sum())
     return J
 
 def normalEqn(X, y):
     return np.dot(
-            np.linalg.pinv(np.dot(X.T, X)), 
+            np.linalg.pinv(np.dot(X.T, X)),
             np.dot(X.T, y))
 
 def test():

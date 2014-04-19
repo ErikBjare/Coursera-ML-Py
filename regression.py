@@ -1,23 +1,23 @@
-import numpy as np
+from numpy import *
 import unittest
 
 def linear_hypothesis(x, theta):
     """The linear hypothesis"""
-    return np.dot(x, theta)
+    return dot(x, theta)
 
 def computeCost(x, y, theta, reg=None):
     """Does the same thing as computeCost.m and computeCostMulti.m"""
     m = len(x)
-    J = np.multiply(1/(2*m), np.power((linear_hypothesis(x, theta)-y), 2).sum())
+    J = multiply(1/(2*m), power((linear_hypothesis(x, theta)-y), 2).sum())
     if reg:
         J += regularize(reg, m, theta)
     return J
 
 def normalEqn(x, y):
     """The normal equation"""
-    return np.dot(
-               np.linalg.pinv(np.dot(x.T, x)),
-               np.dot(x.T,
+    return dot(
+               linalg.pinv(dot(x.T, x)),
+               dot(x.T,
                    y))
 
 def regularize(reg, m, theta):
@@ -39,15 +39,15 @@ class RegressionTest(unittest.TestCase):
             #print("Y:\n", y)
             #print("Theta:\n", theta)
 
-        x = np.matrix([[1, 2]]).T
-        y = np.matrix([[1, 2]]).T
-        theta = np.matrix([1])
+        x = matrix([[1, 2]]).T
+        y = matrix([[1, 2]]).T
+        theta = matrix([1])
         add_set(x, y, theta)
 
 
-        x = np.matrix("[[1, 1, 1, 1]; [1, 2, 2, 2]; [1, 2, 3, 3]; [1, 2, 3, 4]]")
-        y = np.matrix("[4; 7; 9; 10]")
-        theta = np.matrix([[1, 1, 1, 1]]).T
+        x = matrix("[[1, 1, 1, 1]; [1, 2, 2, 2]; [1, 2, 3, 3]; [1, 2, 3, 4]]")
+        y = matrix("[4; 7; 9; 10]")
+        theta = matrix([[1, 1, 1, 1]]).T
         add_set(x, y, theta)
 
     def test_linear_cost(self):
@@ -60,7 +60,7 @@ class RegressionTest(unittest.TestCase):
         for i in range(len(self.xs)):
             #print("Trying case", i)
             nTheta = normalEqn(self.xs[i], self.ys[i])
-            self.assertTrue(np.allclose(self.thetas[i], nTheta))
+            self.assertTrue(allclose(self.thetas[i], nTheta))
 
 
 if __name__ == "__main__":
